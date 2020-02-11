@@ -1,30 +1,81 @@
 <script>
-	export let name;
+
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Greatness awaits</p>
+	<container>
+		<header-section>
+			<header-left>
+				<p>dr trendify</p>
+			</header-left>
+			<header-right>
+				<p>menu</p>
+			</header-right>
+		</header-section>
+
+		<content-container>
+			<content>
+				<h1>Hi!</h1>
+				<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veritatis explicabo cum nemo atque ut obcaecati expedita tenetur deleniti, impedit qui molestias tempora inventore dolorem voluptatibus! Dolorum facere repudiandae odio quibusdam.</p>
+			</content>		
+		</content-container>
+
+		<footer>
+			<p>Footer</p>
+		</footer>
+	</container>
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	container {
+		width: 100vw;
+		min-height: 100vh;
+
+		display: flex;
+		flex-direction: column;
+		align-content: center;
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+	header-section {
+		width: 80vw;
+
+		display: flex;
+		justify-content: space-between;
+
+		margin-left: auto;
+		margin-right: auto;
 	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	header-left {
+
+		padding: 2.5vh;
+	}
+
+	header-right {
+
+		padding: 2.5vh;
+	}
+
+	content-container {
+		flex: 1;
+	}
+
+	content {
+		width: 60vw;
+
+		margin-left: auto;
+		margin-right: auto;
+
+
+		display: flex;
+		flex-direction: column;
+
+		align-items: center;
+	}
+
+	footer {
+		padding-left: 10vw;
+		padding-top: 2.5vh;
+		padding-bottom: 2.5vh;
 	}
 </style>
