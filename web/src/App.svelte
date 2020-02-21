@@ -106,7 +106,8 @@
 	}
 
 	header-section {
-		width: 80vw;
+    margin-top: 15px;
+		width: 70vw;
 
 		display: flex;
 		justify-content: space-between;
