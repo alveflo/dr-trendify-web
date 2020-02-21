@@ -4,29 +4,45 @@
   import { onMount } from "svelte";
 	export let data;
 	let labels = [];
-	let priceData = [];
-	let emaData = [];
-	let ma50Data = [];
-	let ma200Data = [];
+	let uninvested = [];
+	let invested = [];
+
+	function isPositiveTrending(ema21, sma50, sma200) {
+		if (ema21 <= 0) return false;
+		if (sma50 <= 0) return false;
+		if (sma200 <= 0) return false;
+		return true;
+	}
+
+	function isMaTrending(ema21, sma50, sma200) {
+		if (ema21 <= sma50) return false;
+		if (sma50 <= sma200) return false;
+		return true;
+	}
 
 	$: for (let i = 0; i < data.dataPoints.length; i++) {
 		try {
 			let label = new Date(data.dataPoints[i][0]).toLocaleDateString();
 
 			labels.push(label);
-			priceData.push(data.dataPoints[i][1]);
+			let price = data.dataPoints[i][1];
 			
-			emaData.push(data.technicalAnalysis[0].dataPoints[i][1]);
-			ma50Data.push(data.technicalAnalysis[1].dataPoints[i][1]);
-			ma200Data.push(data.technicalAnalysis[2].dataPoints[i][1]);			
+			let ema21 = data.technicalAnalysis[0].dataPoints[i][1];
+			let sma50 = data.technicalAnalysis[1].dataPoints[i][1];
+			let sma200 = data.technicalAnalysis[2].dataPoints[i][1];
+
+			let isTrending = isPositiveTrending(ema21, sma50, sma200) && isMaTrending(ema21, sma50, sma200);
+
+			invested.push(isTrending ? price : null);
+			uninvested.push(isTrending ? null : price);
 		} catch (error) {
 			
 		}
 	}
 
   function createChart() {
-    var ctx = document.getElementById("chart").getContext("2d");
-    var chart = new Chart(ctx, {
+    let ctx = document.getElementById("chart").getContext("2d");
+    let chart = new Chart(ctx, {
         // The type of chart we want to create
         type: "line",
 
@@ -35,46 +51,31 @@
             labels: labels,
             datasets: [
 							{
-								label: "Price",
-								borderColor: "#000",//"rgb(255, 99, 132)",
+								borderColor: "gray",
 								backgroundColor: "#fff",
 								borderWidth: 1.5,
-								lineTension: 0,
-                data: priceData,
+								borderDash: [5,5],
+                data: uninvested,
                 fill: false
 							},
 							{
-								label: "EMA21",
-                borderColor: "#CF0E5B",//"rgb(255, 99, 132)",
-								backgroundColor: "#CF0E5B",
-								borderWidth: 1,
-								lineTension: 0,
-                data: emaData,
+                borderColor: "#000",
+								backgroundColor: "#fff",
+								borderWidth: 1.5,
+                data: invested,
                 fill: false
-							},
-							{
-								label: "MA50",
-                borderColor: "#3AAE84",//"rgb(255, 99, 132)",
-								backgroundColor: "#3AAE84",
-								borderWidth: 1,
-								lineTension: 0,
-                data: ma50Data,
-                fill: false
-							},
-							{
-								label: "MA200",
-                borderColor: "#E2A52E",//"rgb(255, 99, 132)",
-								backgroundColor: "#E2A52E",
-								borderWidth: 1,
-								lineTension: 0,
-                data: ma200Data,
-                fill: false
-							},
+							}
 						]
         },
 
         // Configuration options go here
         options: {
+					legend: {
+						display: false
+					},
+					tooltips: {
+						enabled: false
+					},
 					scales: {
 						yAxes: [{
 							gridLines: {

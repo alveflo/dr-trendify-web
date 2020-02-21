@@ -15,7 +15,10 @@ const getStockList = (async () => {
 
 </script>
 
-<h1>Trending stocks</h1>
+<header>
+  <p class="header">Trending</p>
+  <p class="subheader">Trending stocks based on moving averages</p>
+</header>
 
 {#await getStockList}
   <Loader />
@@ -62,12 +65,27 @@ const getStockList = (async () => {
 {/await}
 
 <style>
+header {
+  text-align: center;
+  padding: 100px;
+}
+
 a {
   color: #000;
 }
 
-h1 {
-  padding: 50px;
+.header {
+  font-size: 36px;
+  padding: 10px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.subheader {
+  padding: 0;
+  margin: 0;
+  text-transform: lowercase;
+  color: gray;
 }
 
 .stock-details-table th, td {

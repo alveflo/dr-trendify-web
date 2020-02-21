@@ -1,7 +1,6 @@
 <script>
   import {
-    ChevronLeftIcon,
-    ActivityIcon
+    ChevronLeftIcon
   } from "svelte-feather-icons";
   import Chart from "./Chart.svelte";
   import Loader from "../Loader/Loader.svelte";
@@ -17,7 +16,7 @@
     percentage: false,
     volume: false,
     owners: false,
-    timePeriod: "year",
+    timePeriod: "three_years",
     ta: [{
         type: "ema",
         timeFrame: 21
@@ -50,7 +49,7 @@
 
 <div class="company-info">
   <div class="company-info-back-button-container">
-    <a href="#/">
+    <a href="#/stock/{item.id}">
       <ChevronLeftIcon size="32" />
     </a>
   </div>
@@ -58,7 +57,8 @@
     <header>
       <p class="header">{item.name}</p>
       <p class="subheader">
-        <a href="https://www.avanza.se/aktier/om-aktien.html/{item.alfaId}" targte="_blank">Avanza</a> | <a href="/#/backtest/{item.id}">Backtest</a></p>
+        Three years backtest based on exponential and simple moving averages
+      </p>
     </header>
   </div>
 </div>
@@ -71,14 +71,15 @@
 {:catch error}
   <p>Ooops! {error}</p>
 {/await}
-<style>
-a {
-  color: #000;
-}
 
+<style>
 header {
   text-align: center;
   padding: 50px;
+}
+
+a {
+  color: #000;
 }
 
 .header {
@@ -91,7 +92,14 @@ header {
 .subheader {
   padding: 0;
   margin: 0;
+  text-transform: lowercase;
   color: gray;
+}
+
+h1 {
+  padding: 50px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .company-info-back-button-container {

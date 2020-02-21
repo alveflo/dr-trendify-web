@@ -3,14 +3,17 @@
   import { onMount } from 'svelte';
   import StockList from "./Components/StockList/StockList.svelte";
   import StockDetails from "./Components/StockDetails/StockDetails.svelte";
+  import Backtest from "./Components/Backtest/Backtest.svelte";
 
   let item;
+  let showDetails = true;
 
   async function hashchange() {
 		// the poor man's router!
 		const path = window.location.hash.slice(1);
 
 		if (path.startsWith('/stock')) {
+      showDetails = true;
       let stockId = path.slice(6);
       if (stockId) {
         stockId = stockId.replace('/', '');
@@ -21,9 +24,18 @@
         window.location.hash = '/';
         item = null;
       }
-    //  else if (path.startsWith('/top')) {
-		// 	page = +path.slice(5);
-		// 	item = null;
+		} else if (path.startsWith('/backtest')) {
+      showDetails = false;
+      let stockId = path.slice(9);
+      if (stockId) {
+        stockId = stockId.replace('/', '');
+        item = await fetch(`https://dr-trendify-api.herokuapp.com/data/${stockId}`).then(r => r.json());
+  
+        window.scrollTo(0,0);
+      } else {
+        window.location.hash = '/';
+        item = null;
+      }
 		} else {
 			window.location.hash = '/';
       item = null;
@@ -49,7 +61,11 @@
     <content-container>
       <content>
         {#if item}
-          <StockDetails {item} />
+          {#if showDetails}
+            <StockDetails {item} />
+          {:else}
+            <Backtest {item} />
+          {/if}
         {:else}
           <StockList />
         {/if}
