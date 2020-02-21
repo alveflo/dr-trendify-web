@@ -75,6 +75,7 @@
 
         // Configuration options go here
         options: {
+					animation: false,
 					scales: {
 						yAxes: [{
 							gridLines: {
