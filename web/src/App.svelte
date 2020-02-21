@@ -1,4 +1,5 @@
 <script>
+  import { BarChart2Icon, MenuIcon } from "svelte-feather-icons";
   import { onMount } from 'svelte';
   import StockList from "./Components/StockList/StockList.svelte";
   import StockDetails from "./Components/StockDetails/StockDetails.svelte";
@@ -17,13 +18,15 @@
   
         window.scrollTo(0,0);
       } else {
-  			window.location.hash = '/';
+        window.location.hash = '/';
+        item = null;
       }
     //  else if (path.startsWith('/top')) {
 		// 	page = +path.slice(5);
 		// 	item = null;
 		} else {
 			window.location.hash = '/';
+      item = null;
 		}
 	}
 
@@ -36,10 +39,10 @@
   <container>
     <header-section>
       <header-left>
-        <p>dr trendify</p>
+        <BarChart2Icon size="32" />
       </header-left>
       <header-right>
-        <p>menu</p>
+        <MenuIcon size="32" />
       </header-right>
     </header-section>
 
@@ -57,19 +60,19 @@
     <footer>
       <footer-item>
         <p class="header">P/E</p>
-        <p class="text">{ item.pricePerEarning }</p>
+        <p class="text">{ item.pricePerEarning.toFixed(1) }</p>
       </footer-item>
       <footer-item>
         <p class="header">P/S</p>
-        <p class="text">{ item.pricePerSales }</p>
+        <p class="text">{ item.pricePerSales.toFixed(1) }</p>
       </footer-item>
       <footer-item>
         <p class="header">EPS</p>
-        <p class="text">{ item.earningsPerShare }</p>
+        <p class="text">{ item.earningsPerShare.toFixed(1) }</p>
       </footer-item>
       <footer-item>
         <p class="header">D/A</p>
-        <p class="text">{ item.dividendYield }</p>
+        <p class="text">{ item.dividendYield.toFixed(1) }%</p>
       </footer-item>
     </footer>
   {/if}
@@ -125,7 +128,7 @@
 		padding-top: 1vh;
 		padding-bottom: 1vh;
 
-    background-color: black;
+    background-color: #212528;
 
     display: flex;
     justify-content: center;
@@ -136,17 +139,18 @@
     margin-left: 20px;
     margin-right: 20px;
 
-    font-size: 32px;
-    color: white;
-
     text-align: center;
   }
 
   p.header {
-
+    color: gray;
+    font-size: 18px;
+    margin-bottom: 5px;
   }
 
   p.text {
-    color: gray;
+    margin-top: 5px;
+    font-size: 32px;
+    color: white;
   }
 </style>

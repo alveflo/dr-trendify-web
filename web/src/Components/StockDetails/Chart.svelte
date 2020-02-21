@@ -1,7 +1,7 @@
 <canvas id="chart"></canvas>
 
 <script>
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
 	export let data;
 	let labels = [];
 	let priceData = [];
@@ -21,37 +21,48 @@
 	}
 
   function createChart() {
-    var ctx = document.getElementById('chart').getContext('2d');
+    var ctx = document.getElementById("chart").getContext("2d");
     var chart = new Chart(ctx, {
         // The type of chart we want to create
-        type: 'line',
+        type: "line",
 
         // The data for our dataset
         data: {
             labels: labels,
             datasets: [
 							{
-								label: 'Price',
-								borderColor: '#000',//'rgb(255, 99, 132)',
-								backgroundColor: 'gray',
+								label: "Price",
+								borderColor: "#000",//"rgb(255, 99, 132)",
+								backgroundColor: "#fff",
+								borderWidth: 1,
+								lineTension: 0,
                 data: priceData,
                 fill: false
 							},
 							{
-								label: 'EMA21',
-                borderColor: 'red',//'rgb(255, 99, 132)',
+								label: "EMA21",
+                borderColor: "red",//"rgb(255, 99, 132)",
+								backgroundColor: "#fff",
+								borderWidth: 1,
+								lineTension: 0,
                 data: emaData,
                 fill: false
 							},
 							{
-								label: 'MA50',
-                borderColor: 'green',//'rgb(255, 99, 132)',
+								label: "MA50",
+                borderColor: "green",//"rgb(255, 99, 132)",
+								backgroundColor: "#fff",
+								borderWidth: 1,
+								lineTension: 0,
                 data: ma50Data,
                 fill: false
 							},
 							{
-								label: 'MA200',
-                borderColor: 'blue',//'rgb(255, 99, 132)',
+								label: "MA200",
+                borderColor: "blue",//"rgb(255, 99, 132)",
+								backgroundColor: "#fff",
+								borderWidth: 1,
+								lineTension: 0,
                 data: ma200Data,
                 fill: false
 							},
