@@ -81,7 +81,8 @@
 								borderWidth: 1,
 								lineTension: 0,
                 data: emaData,
-                fill: false
+								fill: false,
+								hidden: true
 							},
 							{
 								label: "MA50",
@@ -90,7 +91,8 @@
 								borderWidth: 1,
 								lineTension: 0,
                 data: ma50Data,
-                fill: false
+                fill: false,
+								hidden: true
 							},
 							{
 								label: "MA200",
@@ -99,7 +101,8 @@
 								borderWidth: 1,
 								lineTension: 0,
                 data: ma200Data,
-                fill: false
+                fill: false,
+								hidden: true
 							},
 						]
         },
