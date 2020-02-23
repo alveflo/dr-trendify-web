@@ -8,7 +8,7 @@ import {
 } from "svelte-feather-icons";
 import Loader from "../Loader/Loader.svelte";
 const getStockList = (async () => {
-    let response = await fetch("https://dr-trendify-api.herokuapp.com/data/trending");
+    let response = await fetch("https://dr-trendify-api.herokuapp.com/data/babyrage");
 
     return await response.json();
 })();

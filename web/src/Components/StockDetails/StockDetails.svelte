@@ -58,7 +58,7 @@
     <header>
       <p class="header">{item.name}</p>
       <p class="subheader">
-        <a href="https://www.avanza.se/aktier/om-aktien.html/{item.alfaId}" targte="_blank">Avanza</a> | <a href="/#/backtest/{item.id}">Backtest</a></p>
+        <a href="https://www.avanza.se/aktier/om-aktien.html/{item.alfaId}" target="_blank">Avanza</a> | <a href="/#/backtest/{item.id}">Backtest</a></p>
     </header>
   </div>
 </div>
