@@ -1,19 +1,23 @@
 <script>
+  import { slide } from 'svelte/transition';
   import { BarChart2Icon, MenuIcon } from "svelte-feather-icons";
   import { onMount } from 'svelte';
   import StockList from "./Components/StockList/StockList.svelte";
   import StockDetails from "./Components/StockDetails/StockDetails.svelte";
   import Backtest from "./Components/Backtest/Backtest.svelte";
+  import Menu from "./Components/Menu/Menu.svelte";
 
   let item;
   let showDetails = true;
   let market = 0;
+  let showMenu = false;
 
   async function hashchange() {
 		// the poor man's router!
 		const path = window.location.hash.slice(1);
+    showMenu = false;
 
-    if (path.startsWith('/stock')) {
+if (path.startsWith('/stock')) {
       showDetails = true;
       let stockId = path.slice(6);
       if (stockId) {
@@ -46,6 +50,11 @@
 		}
 	}
 
+  function toggleMenu(e) {
+    e.preventDefault();
+    showMenu = !showMenu;
+  }
+
 	onMount(hashchange);
 </script>
 
@@ -55,14 +64,26 @@
   <container>
     <header-section>
       <header-left>
-        <BarChart2Icon size="32" />
+        <a href="#/">
+          <BarChart2Icon size="32" />
+        </a>
       </header-left>
       <header-right>
-        <MenuIcon size="32" />
+        <a href="#/" on:click={toggleMenu} role="button">
+          <MenuIcon size="32" />
+        </a>
       </header-right>
     </header-section>
 
-    <content-container>
+  {#if showMenu}
+  <div class="menu-container">
+    <div class="menu" transition:slide>
+      <Menu />
+    </div>
+  </div>
+  {/if}
+
+    <content-container class:overlay={showMenu}>
       <content>
         {#if item}
           {#if showDetails}
@@ -100,8 +121,28 @@
 </main>
 
 <style>
+  a {
+    color: #000;
+  }
+  .menu-container {
+    position: relative;
+
+    width: 70vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .menu {
+    position: absolute;
+    background-color: #fff;
+    z-index: 10;
+
+    width: 68vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
 	container {
-		width: 100vw;
 		min-height: 100vh;
 
 		display: flex;
@@ -127,6 +168,12 @@
 	header-right {
 		padding: 2.5vh;
 	}
+
+  .overlay {
+    width: 100%;
+    height: 100%;            
+    opacity: 0.4;
+  }
 
 	content-container {
 		flex: 1;
