@@ -7,23 +7,58 @@ import {
   TrendingUpIcon
 } from "svelte-feather-icons";
 import Loader from "../Loader/Loader.svelte";
-const getStockList = (async () => {
-    let response = await fetch("https://dr-trendify-api.herokuapp.com/data/babyrage");
+
+export let market;
+let marketName = '';
+
+$: switch (Number(market)) {
+  case 1:
+    marketName = "OMX Stockholm";
+    break;
+  case 2:
+    marketName = "OMX Copenhagen";
+    break;
+  case 3:
+    marketName = "OMX Helsinki";
+    break;
+  case 4:
+    marketName = "First North Stockholm";
+    break;
+  case 5:
+    marketName = "First North Copenhagen";
+    break;
+  case 6:
+    marketName = "Aktietorget (Sweden)";
+    break;
+  default:
+    marketName = "";
+}
+
+$: getStockList = (async () => {
+    let url = "https://dr-trendify-api.herokuapp.com/data/trending/" + (market > 0 ? market : '');
+    console.log(market);
+    let response = await fetch(url);
 
     return await response.json();
 })();
-
 </script>
 
 <header>
   <p class="header">Trending</p>
-  <p class="subheader">Trending stocks based on moving averages</p>
+  {#if marketName !== ''}
+    <p class="subheader">Trending stocks @ {marketName}</p>
+  {:else}
+    <p class="subheader">Trending stocks based on moving averages</p>
+  {/if}
 </header>
 
 {#await getStockList}
   <Loader />
 {:then stockDetails}
 
+{#if stockDetails.length === 0}
+<p>No trending stocks :(</p>
+{:else}
 <table class="stock-details-table">
   <thead>
     <th></th>
@@ -60,6 +95,7 @@ const getStockList = (async () => {
     {/each}
   </tbody>
 </table>
+{/if}
 {:catch error}
   <p>Oops! {error}</p>
 {/await}

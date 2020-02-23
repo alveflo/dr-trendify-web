@@ -7,12 +7,13 @@
 
   let item;
   let showDetails = true;
+  let market = 0;
 
   async function hashchange() {
 		// the poor man's router!
 		const path = window.location.hash.slice(1);
 
-		if (path.startsWith('/stock')) {
+    if (path.startsWith('/stock')) {
       showDetails = true;
       let stockId = path.slice(6);
       if (stockId) {
@@ -36,7 +37,10 @@
         window.location.hash = '/';
         item = null;
       }
-		} else {
+		} else if (!isNaN(path.replace('/','')) && path.replace('/','') > 0 && path.replace('/','') < 7) {
+      market = path.replace('/','');
+    } else {
+      market = 0;
 			window.location.hash = '/';
       item = null;
 		}
@@ -67,7 +71,7 @@
             <Backtest {item} />
           {/if}
         {:else}
-          <StockList />
+          <StockList bind:market={market} />
         {/if}
       </content>		
     </content-container>
