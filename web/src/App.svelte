@@ -22,6 +22,12 @@
     const path = window.location.hash.slice(1);
     showMenu = false;
 
+    let routes = {
+      "/:marketId": (routeData) => StockList,
+      "/stock/:stockId": (routeData) => {},
+      "/backtest/:stockId": (routeData) => {},
+    };
+
     const marketPath = new Path("/:marketId").test(path);
     const detailsPath = new Path("/stock/:stockId").test(path);
     const backtestPath = new Path("/backtest/:stockId").test(path);
