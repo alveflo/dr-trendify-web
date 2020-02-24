@@ -3,49 +3,12 @@
     ChevronLeftIcon,
     ActivityIcon
   } from "svelte-feather-icons";
-  import Chart from "./Chart.svelte";
+  import Chart from "./StockDetailsChart.svelte";
   import Loader from "../Loader/Loader.svelte";
 
+  import getChartData from "../../Shared/AlfaHelpers.js";
+
   export let item;
-
-  const body = {
-    orderbookId: item.alfaId,
-    chartType: "AREA",
-    widthOfPlotContainer: 558,
-    chartResolution: "DAY",
-    navigator: false,
-    percentage: false,
-    volume: false,
-    owners: false,
-    timePeriod: "year",
-    ta: [{
-        type: "ema",
-        timeFrame: 21
-      },
-      {
-        type: "sma",
-        timeFrame: 50
-      },
-      {
-        type: "sma",
-        timeFrame: 200
-      }],
-    compareIds: []
-  };
-
-  const getData = (async () => {
-    let response = await fetch("https://limitless-solar-winds.herokuapp.com/https://www.avanza.se/ab/component/highstockchart/getchart/orderbook",
-    {
-      method: "POST",
-      headers: [
-        ["Content-Type", "application/json"],
-        ["Cache-Control", "no-cache"],
-        ["Access-Control-Allow-Origin", "*"]
-      ],
-      body: JSON.stringify(body)
-    });
-    return await response.json();
-  })();
 </script>
 
 <div class="company-info">
@@ -62,7 +25,8 @@
     </header>
   </div>
 </div>
-{#await getData}
+
+{#await getChartData(item.alfaId, "year")}
   <Loader />
 {:then data}
   <div class="chart-container">

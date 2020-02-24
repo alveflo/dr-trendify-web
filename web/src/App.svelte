@@ -17,7 +17,7 @@
 		const path = window.location.hash.slice(1);
     showMenu = false;
 
-if (path.startsWith('/stock')) {
+    if (path.startsWith('/stock')) {
       showDetails = true;
       let stockId = path.slice(6);
       if (stockId) {
