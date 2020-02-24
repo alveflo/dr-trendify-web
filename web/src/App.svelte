@@ -33,8 +33,10 @@
     const backtestPath = new Path("/backtest/:stockId").test(path);
 
     if (backtestPath) {
+      showDetails = false;
       item = await fetch(`https://dr-trendify-api.herokuapp.com/data/${backtestPath.stockId}`).then(r => r.json());
     } else if (detailsPath) {
+      showDetails = true;
       item = await fetch(`https://dr-trendify-api.herokuapp.com/data/${detailsPath.stockId}`).then(r => r.json());
     } else if (marketPath && !isNaN(marketPath.marketId)) {
       market = marketPath.marketId;

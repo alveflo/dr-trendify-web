@@ -12,11 +12,6 @@
 </script>
 
 <div class="company-info">
-  <div class="company-info-back-button-container">
-    <a href="#/">
-      <ChevronLeftIcon size="32" />
-    </a>
-  </div>
   <div class="company-name">
     <header>
       <p class="header">{item.name}</p>
