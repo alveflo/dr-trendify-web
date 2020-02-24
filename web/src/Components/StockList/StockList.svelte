@@ -36,7 +36,6 @@ $: switch (Number(market)) {
 
 $: getStockList = (async () => {
     let url = "https://dr-trendify-api.herokuapp.com/data/trending/" + (market > 0 ? market : '');
-    console.log(market);
     let response = await fetch(url);
 
     return await response.json();

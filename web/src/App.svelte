@@ -7,47 +7,34 @@
   import Backtest from "./Components/Backtest/Backtest.svelte";
   import Menu from "./Components/Menu/Menu.svelte";
 
+  import { Path } from "path-parser"; 
+
   let item;
   let showDetails = true;
   let market = 0;
   let showMenu = false;
 
   async function hashchange() {
-		// the poor man's router!
-		const path = window.location.hash.slice(1);
+    window.scrollTo(0,0);
+    market = 0;
+    item = null;
+
+    const path = window.location.hash.slice(1);
     showMenu = false;
 
-    if (path.startsWith('/stock')) {
-      showDetails = true;
-      let stockId = path.slice(6);
-      if (stockId) {
-        stockId = stockId.replace('/', '');
-        item = await fetch(`https://dr-trendify-api.herokuapp.com/data/${stockId}`).then(r => r.json());
-  
-        window.scrollTo(0,0);
-      } else {
-        window.location.hash = '/';
-        item = null;
-      }
-		} else if (path.startsWith('/backtest')) {
-      showDetails = false;
-      let stockId = path.slice(9);
-      if (stockId) {
-        stockId = stockId.replace('/', '');
-        item = await fetch(`https://dr-trendify-api.herokuapp.com/data/${stockId}`).then(r => r.json());
-  
-        window.scrollTo(0,0);
-      } else {
-        window.location.hash = '/';
-        item = null;
-      }
-		} else if (!isNaN(path.replace('/','')) && path.replace('/','') > 0 && path.replace('/','') < 7) {
-      market = path.replace('/','');
+    const marketPath = new Path("/:marketId").test(path);
+    const detailsPath = new Path("/stock/:stockId").test(path);
+    const backtestPath = new Path("/backtest/:stockId").test(path);
+
+    if (backtestPath) {
+      item = await fetch(`https://dr-trendify-api.herokuapp.com/data/${backtestPath.stockId}`).then(r => r.json());
+    } else if (detailsPath) {
+      item = await fetch(`https://dr-trendify-api.herokuapp.com/data/${detailsPath.stockId}`).then(r => r.json());
+    } else if (marketPath && !isNaN(marketPath.marketId)) {
+      market = marketPath.marketId;
     } else {
-      market = 0;
-			window.location.hash = '/';
-      item = null;
-		}
+      window.location.hash = '/';
+    }
 	}
 
   function toggleMenu(e) {
